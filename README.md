@@ -5,9 +5,7 @@
 
 ### ⬇️這裡可以下載：[點此下載](https://drive.google.com/uc?export=download&id=1vLFWfrXcc32L-A6ocLt9d62Rx7tGoKDq)
 
-> [name=欸冷]
-> [time=Wed, Feb 12, 2025 10:26 AM]
-> 
+
 ## 📋功能特點
 
 - 一鍵自動抓取並生成課表
