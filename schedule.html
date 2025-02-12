@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>輔大課表</title>
+    <style>
+        :root {
+           
+            --primary-color: #4a90e2;
+            --background-color: #f5f5f5;
+            --container-bg: white;
+            --text-color: #333;
+            --header-color: #2c3e50;
+            --hover-color: #f1f3f5;
+            --border-color: #e9ecef;
+            --course-card-bg: #ffffff;
+            --course-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+       
+        [data-theme="forest"] {
+            --primary-color: #66bb6a;
+            --background-color: #f1f8e9;
+            --container-bg: #ffffff;
+            --text-color: #2e7d32;
+            --header-color: #4caf50;
+            --hover-color: #e8f5e9;
+            --border-color: #c8e6c9;
+            --course-card-bg: #f1f8e9;
+            --course-shadow: rgba(76, 175, 80, 0.1);
+        }
+
+        [data-theme="ocean"] {
+            --primary-color: #006064;
+            --background-color: #e0f7fa;
+            --container-bg: #ffffff;
+            --text-color: #00363a;
+            --header-color: #006064;
+            --hover-color: #e0f7fa;
+            --border-color: #b2ebf2;
+            --course-card-bg: #e0f7fa;
+            --course-shadow: rgba(0, 96, 100, 0.1);
+        }
+
+       
+        [data-theme="lavender"] {
+            --primary-color: #9fa8da;
+            --background-color: #f5f6ff;
+            --container-bg: #ffffff;
+            --text-color: #5c6bc0;
+            --header-color: #7986cb;
+            --hover-color: #e8eaf6;
+            --border-color: #c5cae9;
+            --course-card-bg: #f5f6ff;
+            --course-shadow: rgba(159, 168, 218, 0.1);
+        }
+
+        
+        [data-theme="sunset"] {
+            --primary-color: #ffb74d;
+            --background-color: #fffbf0;
+            --container-bg: #ffffff;
+            --text-color: #f57c00;
+            --header-color: #ffa726;
+            --hover-color: #fff8e6;
+            --border-color: #ffe0b2;
+            --course-card-bg: #fff8e6;
+            --course-shadow: rgba(255, 167, 38, 0.1);
+        }
+
+       
+        [data-theme="violet"] {
+            --primary-color: #9575cd;
+            --background-color: #f5f0ff;
+            --container-bg: #ffffff;
+            --text-color: #5e35b1;
+            --header-color: #7e57c2;
+            --hover-color: #ede7f6;
+            --border-color: #d1c4e9;
+            --course-card-bg: #f5f0ff;
+            --course-shadow: rgba(149, 117, 205, 0.1);
+        }
+
+        
+        [data-theme="sakura"] {
+            --primary-color: #f8bbd0;
+            --background-color: #fff0f5;
+            --container-bg: #ffffff;
+            --text-color: #880e4f;
+            --header-color: #ec407a;
+            --hover-color: #fce4ec;
+            --border-color: #f48fb1;
+            --course-card-bg: #fef6f9;
+            --course-shadow: rgba(236, 64, 122, 0.1);
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            margin: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .student-info {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--hover-color);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .student-info h2 {
+            color: var(--header-color);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .student-info p {
+            margin: 8px 0;
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        h2 {
+            color: var(--header-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .schedule-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            text-align: center;
+            width: 16.66%;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .schedule-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            font-size: 20px;
+        }
+
+        .schedule-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .schedule-table tr:hover {
+            background-color: #f1f3f5;
+        }
+
+        .course-card {
+            background-color: var(--course-card-bg);
+            border-radius: 6px;
+            padding: 8px;
+            margin: 4px;
+            box-shadow: 0 2px 4px var(--course-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--course-shadow);
+        }
+
+        .course-name {
+            font-weight: bold;
+            color: var(--header-color);
+            margin-bottom: 4px;
+            font-size: 16px;
+        }
+
+        .course-room {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .schedule-table td:first-child {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-color));
+            color: white;
+        }
+
+        .schedule-table td {
+            transition: background-color 0.3s ease;
+        }
+
+        .schedule-table tr:hover td {
+            background-color: var(--hover-color);
+        }
+
+        .dev-info-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .dev-info-button:hover {
+            background-color: #357abd;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .theme-selector {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 14px;
+            min-width: 120px;
+            height: auto;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .theme-selector:hover {
+            border-color: var(--primary-color);
+        }
+
+        .theme-selector option {
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            padding: 8px;
+        }
+
+        .dev-info-button {
+            margin-left: auto;
+        }
+
+        
+        [data-theme="forest"] .schedule-table td:first-child,
+        [data-theme="ocean"] .schedule-table td:first-child,
+        [data-theme="sunset"] .schedule-table td:first-child,
+        [data-theme="violet"] .schedule-table td:first-child,
+        [data-theme="sakura"] .schedule-table td:first-child {
+            color: white;
+        }
+
+        .schedule-table th {
+            color: white;
+        }
+    </style>
+    <script src="schedule.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="controls">
+            <select id="themeSelector" class="theme-selector">
+                <option value="light">預設主題</option>
+                <option value="forest">森林主題</option>
+                <option value="lavender">薰衣草主題</option>
+                <option value="sunset">夕陽主題</option>
+                <option value="violet">紫羅蘭主題</option>
+                <option value="sakura">櫻花主題</option>
+            </select>
+            <button class="dev-info-button" id="devInfoButton">開發人員資訊</button>
+        </div>
+        <div class="student-info" id="studentInfo"></div>
+        <table class="schedule-table" id="scheduleTable">
+            <tr>
+                <th>節次</th>
+                <th>週一</th>
+                <th>週二</th>
+                <th>週三</th>
+                <th>週四</th>
+                <th>週五</th>
+            </tr>
+        </table>
+    </div>
+</body>
+
+
+</html>

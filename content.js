@@ -1,0 +1,1 @@
+console.log('FJU 課表生成器已載入'); 
