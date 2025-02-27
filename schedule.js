@@ -109,6 +109,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
     });
+
+    // 添加保存課表按鈕
+    const saveScheduleButton = document.getElementById('saveScheduleButton');
+    // 保存課表的功能
+    saveScheduleButton.addEventListener('click', function () {
+        const scheduleTable = document.getElementById('scheduleTable');
+        html2canvas(scheduleTable).then(canvas => {
+            const link = document.createElement('a');
+            link.download = '課表.png'; // 設定下載的檔案名稱
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    });
 });
 
 

@@ -214,7 +214,6 @@
         }
 
         .dev-info-button {
-            position: absolute;
             top: 20px;
             right: 20px;
             padding: 8px 15px;
@@ -238,6 +237,8 @@
             gap: 10px;
             margin-bottom: 20px;
             padding: 10px;
+            width: 100%;
+           
         }
 
         .theme-selector {
@@ -281,13 +282,31 @@
         .schedule-table th {
             color: white;
         }
+
+        #saveScheduleButton{
+            padding:5px 10px;
+            display: flex;
+            gap: 5px;
+            font-size: 16px;
+            border:1.5px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: .5s;
+        }
+
+        #saveScheduleButton:hover{
+            background: #ddd;
+        }
+       
     </style>
+    <script src="html2canvas.min.js"></script>
     <script src="schedule.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="controls">
+            <div id="saveScheduleButton"><img src="download.png" width="25px">保存課表</div>
             <select id="themeSelector" class="theme-selector">
                 <option value="light">預設主題</option>
                 <option value="forest">森林主題</option>
@@ -296,7 +315,9 @@
                 <option value="violet">紫羅蘭主題</option>
                 <option value="sakura">櫻花主題</option>
             </select>
-            <button class="dev-info-button" id="devInfoButton">開發人員資訊</button>
+           
+                
+                <div class="dev-info-button " id="devInfoButton">開發人員資訊</div>    
         </div>
         <div class="student-info" id="studentInfo"></div>
         <table class="schedule-table" id="scheduleTable">
