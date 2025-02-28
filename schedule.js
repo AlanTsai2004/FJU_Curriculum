@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let devInfoButton = document.getElementById('devInfoButton');
     devInfoButton.addEventListener('click', function () {
-        alert('開發人員資訊：\n開發者：輔大智慧資安 412580084 蔡宇倫\n開發時間：2025年\n聯絡信箱：412580084@m365.fju.edu.tw\n版本：1.0.0');
+        alert('開發人員資訊：\n開發者：輔大智慧資安 412580084 蔡宇倫\n開發時間：2025年\n聯絡信箱：412580084@m365.fju.edu.tw\n版本：v1.1');
     });
 
     
@@ -110,18 +110,40 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme', theme);
     });
 
-    // 添加保存課表按鈕
+    
     const saveScheduleButton = document.getElementById('saveScheduleButton');
-    // 保存課表的功能
+ 
     saveScheduleButton.addEventListener('click', function () {
         const scheduleTable = document.getElementById('scheduleTable');
         html2canvas(scheduleTable).then(canvas => {
             const link = document.createElement('a');
-            link.download = '課表.png'; // 設定下載的檔案名稱
+            link.download = '課表.png'; 
             link.href = canvas.toDataURL('image/png');
             link.click();
         });
     });
+
+    const viewModeSelector = document.createElement('select');
+    viewModeSelector.innerHTML = `
+        <option value="desktop">🖥️ 電腦版課表</option>
+        <option value="mobile">  📱 手機版課表</option>
+    `;
+    viewModeSelector.className = 'view-mode-selector';
+    document.querySelector('.controls').appendChild(viewModeSelector);
+
+    viewModeSelector.addEventListener('change', function(e) {
+        if (e.target.value === 'mobile') {
+            document.body.style.margin="auto"
+            document.body.style.width = '900px';
+            document.body.style.height = '896px';
+            
+        } else {
+            document.body.style.width = '';
+            document.body.style.height = '';
+            document.body.style.overflow = '';
+        }
+    });
+
 });
 
 
