@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "輔大課表生成器",
+  "version": "1.0.0",
+  "description": "輔大課表生成器，一鍵產生當學期課表",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "downloads",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://portal.fju.edu.tw/*",
+    "http://estu.fju.edu.tw/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "schedule.html", 
+        "schedule-styles.css", 
+        "schedule-renderer.js",
+        "libs/html2canvas.min.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://portal.fju.edu.tw/*",
+        "http://estu.fju.edu.tw/*"
+      ],
+      "js": ["content.js"]
+    }
+  ]
+}

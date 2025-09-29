@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輔大課表 - 個人化課程表</title>
+    <link rel="stylesheet" href="schedule-styles.css">
+    <script src="libs/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="schedule-container">
+        <!-- 控制面板 -->
+        <div class="controls-panel">
+            <button id="refreshDataBtn" class="control-btn">
+                🔄 重新載入
+            </button>
+            
+            <select id="themeSelector" class="theme-selector">
+                <option value="default">🌟 預設主題</option>
+                <option value="forest">🌲 森林主題</option>
+                <option value="ocean">🌊 海洋主題</option>
+                <option value="lavender">🌺 薰衣草主題</option>
+                <option value="sunset">🌞 夕陽主題</option>
+                <option value="violet">🌷︎ 紫羅蘭主題</option>
+                <option value="sakura">🌸 櫻花主題</option>
+            </select>
+            
+            <button id="exportImageBtn" class="control-btn">
+                📷 匯出圖片
+            </button>
+        </div>
+
+        <!-- 學生資訊區塊 -->
+        <div class="student-info">
+            <div class="student-info-grid">
+                <div class="info-item">
+                    <span class="info-label">學期</span>
+                    <span class="info-value" id="semesterInfo">未知學期</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">系級</span>
+                    <span class="info-value" id="departmentInfo">未知系級</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">學號</span>
+                    <span class="info-value" id="studentIdInfo">未知學號</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">姓名</span>
+                    <span class="info-value" id="nameInfo">未知姓名</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">總學分</span>
+                    <span class="info-value" id="creditsInfo">未知學分</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 課表主體 -->
+        <div class="schedule-table-container">
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>時間</th>
+                        <th>星期一</th>
+                        <th>星期二</th>
+                        <th>星期三</th>
+                        <th>星期四</th>
+                        <th>星期五</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    <!-- 動態生成 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="schedule-renderer.js"></script>
+</body>
+</html>
