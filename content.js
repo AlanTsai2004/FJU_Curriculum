@@ -1,19 +1,4 @@
-// content.js - Day 16 網頁按鈕注入版本
-// ==========================================
-// Day 23 整合完成 - 真實資料儲存測試系統
-// ==========================================
-// 使用方式：
-// 1. 登入輔大學生系統 (http://estu.fju.edu.tw 或 https://portal.fju.edu.tw)
-// 2. 進入選課清單頁面
-// 3. 在瀏覽器控制台執行: runIntegratedTest()
-// 
-// 功能特色：
-// - 使用真實的輔大課表資料而非測試資料
-// - 支援複雜時段解析 (D7-E0, DN, 1,2,3 等)
-// - 完整的資料驗證和狀態管理
-// - 詳細的測試日誌和錯誤處理
-// ==========================================
-console.log('🌐 輔大網頁按鈕注入器已載入 - Day 16');
+
 
 // 等待頁面載入完成
 function waitForPageReady() {
@@ -24,6 +9,13 @@ function waitForPageReady() {
       window.addEventListener('load', resolve);
     }
   });
+}
+
+// 檢查是否在指定的驗證網域下
+function isOnValidationDomain() {
+  const currentUrl = window.location.href;
+  const validationUrl = 'http://estu.fju.edu.tw/CheckSelList/HisListNew.aspx';
+  return currentUrl.startsWith(validationUrl);
 }
 
 // 等待特定元素載入
@@ -133,7 +125,7 @@ function handleScheduleResponse(button, originalText, response) {
     showNotification('課表生成成功！正在開啟結果頁面...', 'success');
   } else {
     console.error('❌ 課表生成失敗:', response?.error);
-    showNotification('課表生成失敗：' + (response?.error || '未知錯誤'), 'error');
+    //showNotification('課表生成失敗：' + (response?.error || '未知錯誤'), 'error');
   }
 }
 
@@ -218,8 +210,8 @@ async function extractAndStoreScheduleData() {
     return saveResult;
     
   } catch (error) {
-    console.error('❌ 課表資料提取和儲存失敗:', error);
-    showNotification('資料儲存失敗: ' + error.message, 'error');
+    //console.error('❌ 課表資料提取和儲存失敗:', error);
+    //showNotification('資料儲存失敗: ' + error.message, 'error');
     throw error;
   }
 }
@@ -429,6 +421,12 @@ class DOMUtils {
 }
 // 學生資訊驗證器 - 改進版
 function validateStudentInfo(data) {
+  // 只在指定網域下進行驗證
+  if (!isOnValidationDomain()) {
+    console.log('⏭️ 不在指定驗證網域，跳過學生資訊驗證');
+    return true;
+  }
+  
   const required = ['department', 'studentId', 'name', 'totalCredits'];
   const invalidValues = ['未找到系級', '未找到學號', '未找到姓名', '未找到學分', '', null, undefined];
   
@@ -458,6 +456,12 @@ function validateStudentInfo(data) {
 }
 // 課程資料驗證器
 function validateCourseData(courses) {
+  // 只在指定網域下進行驗證
+  if (!isOnValidationDomain()) {
+    console.log('⏭️ 不在指定驗證網域，跳過課程資料驗證');
+    return true;
+  }
+  
   if (!Array.isArray(courses) || courses.length === 0) {
     console.warn('課程清單格式錯誤或為空');
     return false;
@@ -494,22 +498,7 @@ function debugDOMElements() {
     '學分': '#LabTotNum1',
     '學期': '#DDL_YM'
   };
-  
-  Object.entries(elements).forEach(([name, selector]) => {
-    const element = document.querySelector(selector);
-    if (element) {
-      const text = element.textContent?.trim();
-      console.log(`✅ ${name} (${selector}): "${text}"`);
-    } else {
-      console.warn(`❌ ${name} (${selector}): 元素不存在`);
-    }
-  });
-  
-  // 檢查頁面狀態
-  console.log('🌐 當前頁面資訊：');
-  console.log(`- URL: ${window.location.href}`);
-  console.log(`- 標題: ${document.title}`);
-  console.log(`- 載入狀態: ${document.readyState}`);
+ 
 }
 
 // 學生資訊提取器
@@ -552,7 +541,7 @@ function extractCourseData(context = document) {
   const courseTable = DOMUtils.safeQuery('#GV_NewSellist', context);
   
   if (!courseTable) {
-    console.warn('未找到課程表格');
+ 
     return courses;
   }
   
@@ -1333,7 +1322,8 @@ class ScheduleDataManager {
       errors.push('課程清單格式錯誤');
     }
     
-    if (data.課程清單?.length === 0) {
+    // 只在指定網域下檢查課程清單是否為空
+    if (isOnValidationDomain() && data.課程清單?.length === 0) {
       errors.push('課程清單為空');
     }
     
@@ -1579,16 +1569,7 @@ function checkPageReady() {
 
 // 自動化整合測試主函數
 async function runIntegratedTest() {
-  console.log('🚀 開始執行整合測試...');
-  
-  // 檢查頁面是否準備就緒
-  if (!checkPageReady()) {
-    console.error('❌ 頁面未準備就緒，請確保:');
-    console.error('1. 已登入輔大學生系統');
-    console.error('2. 已進入選課清單頁面');
-    console.error('3. 頁面已完全載入');
-    return;
-  }
+ 
   
   try {
     // 執行真實資料儲存測試
